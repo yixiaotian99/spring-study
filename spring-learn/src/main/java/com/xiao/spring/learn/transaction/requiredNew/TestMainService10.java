@@ -30,7 +30,7 @@ public class TestMainService10 {
      * <p>
      * <p>
      * 结论：节点1回滚，节点2、节点3插入成功
-     * 调用链条 testMainHasException-->内部调用 testNoException
+     * 调用链条 testMainHasException-->外部调用 testNoException
      * 前者有 REQUIRED 事务，后者有 REQUIRED_NEW 事务，执行时会将前者事务挂起，后者创建一个新事务
      * 后者新事务提交并不受前者事务的影响，执行成功
      * 前者因为事务被挂起，等于后者执行完成后事务继续执行，发生异常事务回滚
