@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @see https://zhuanlan.zhihu.com/p/148504094
  **/
 @Service
-public class TestMainService2 {
+public class TestMainService5 {
 
     @Autowired
     private ServiceA serviceA;
@@ -25,19 +25,15 @@ public class TestMainService2 {
     private ServiceB serviceB;
 
     /**
-     * 使用 REQUIRED 事务
-     * 如果当前存在事务，就加入到当前事务中，如果当前不存在事务，就创建一个新事务
-     * <p>
-     * 在 REQUIRED (默认)事务前提下，结论：节点1和节点2都执行了，但是回滚了，会占用mysql数据库自增主键值，节点3未执行
-     */
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-    public void testMainNoException() {
-        serviceA.testA("无异常A插入");   //插入回滚  节点1
-        testHasException();
-    }
-
-    /**
      * 多次调用 serviceB 方法
+     * <p>
+     * 为什么节点2也会成功？声明了事务 REQUIRED 之后，节点2与节点3不应该是一个事务吗？为什么节点2成功了？
+     * <p>
+     * 原理:Spring中事务的默认实现使用的是AOP，也就是代理的方式，如果大家在使用代码测试时，
+     * 同一个Service类中的方法相互调用需要使用注入的对象来调用，不要直接使用this.方法名来调用，
+     * this.方法名调用是对象内部方法调用，不会通过Spring代理，也就是事务不会起作用
+     * <p>
+     * 直接调用 testHasException 经过 Spring AOP 切面，事务为一个
      */
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public void testHasException() {
@@ -50,7 +46,7 @@ public class TestMainService2 {
     public static void main(String[] args) {
         ApplicationContext context = new ClassPathXmlApplicationContext("spring-config.xml");
 
-        TestMainService2 testMainService = (TestMainService2) context.getBean("testMainService2");
-        testMainService.testMainNoException();
+        TestMainService5 testMainService = (TestMainService5) context.getBean("testMainService5");
+        testMainService.testHasException();
     }
 }
