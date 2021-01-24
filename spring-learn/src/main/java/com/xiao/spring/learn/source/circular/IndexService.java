@@ -1,6 +1,6 @@
 package com.xiao.spring.learn.source.circular;
 
-import com.xiao.spring.learn.ioc.annotation.Autowired;
+import com.xiao.spring.learn.ioc.annotation.MyAutowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -15,7 +15,7 @@ public class IndexService {
     /**
      * 测试循环引用
      */
-    @Autowired
+    @MyAutowired
     private UserService userService;
 
 

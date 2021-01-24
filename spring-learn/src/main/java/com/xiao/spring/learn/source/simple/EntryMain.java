@@ -11,7 +11,7 @@ public class EntryMain {
 
     public static void main(String[] args) {
 
-//        ApplicationContext applicationContext = new ClassPathXmlApplicationContext("config.xml");
+//        ApplicationContext applicationContext = new ClassPathXmlApplicationContext("spring-config.xml");
 
 //        //普通Bean
 //        Object userService = applicationContext.getBean("userService");
@@ -22,7 +22,7 @@ public class EntryMain {
 
 
         //增强 Bean
-        UserService userService = (UserService) applicationContext.getBean("userService");
+        UserService2 userService = (UserService2) applicationContext.getBean("userService");
         System.out.println(userService.getName());
 
     }

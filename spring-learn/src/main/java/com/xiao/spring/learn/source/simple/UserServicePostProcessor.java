@@ -25,11 +25,11 @@ public class UserServicePostProcessor implements BeanPostProcessor {
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
 
-        System.out.println(beanName);
+//        System.out.println(beanName);
 
         //找到待增强Bean
-        if ("userService".equals(beanName)) {
-            UserService userService = (UserService) bean;
+        if ("userService2".equals(beanName)) {
+            UserService2 userService = (UserService2) bean;
             userService.setName("增强Bean");
 
             return userService;

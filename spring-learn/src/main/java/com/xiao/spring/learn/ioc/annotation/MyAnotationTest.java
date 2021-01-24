@@ -25,7 +25,7 @@ public class MyAnotationTest {
         Stream.of(fields).forEach(field -> {
 
             //如果是 Autowired 注解
-            Autowired annotation = field.getAnnotation(Autowired.class);
+            MyAutowired annotation = field.getAnnotation(MyAutowired.class);
 
             if (annotation != null) {
 

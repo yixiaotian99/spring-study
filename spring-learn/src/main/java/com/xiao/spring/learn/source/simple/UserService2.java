@@ -10,14 +10,14 @@ import org.springframework.stereotype.Component;
  * @Description TODO
  **/
 @Component
-public class UserService {
+public class UserService2 {
 
     @Getter
     @Setter
     private String name = "普通Bean";
 
 
-    public UserService() {
+    public UserService2() {
         System.out.println("userService constructor");
     }
 }

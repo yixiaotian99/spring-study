@@ -8,7 +8,7 @@ package com.xiao.spring.learn.ioc.annotation;
 public class UserController {
 
     @Deprecated
-    @Autowired
+    @MyAutowired
     private UserService userService;
 
 
