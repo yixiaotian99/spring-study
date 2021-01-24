@@ -1,4 +1,4 @@
-package com.xiao.spring.learn.transaction.suppors;
+package com.xiao.spring.learn.transaction.mandatory;
 
 import com.xiao.spring.learn.transaction.ServiceA;
 import com.xiao.spring.learn.transaction.ServiceB;
@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @see https://zhuanlan.zhihu.com/p/148504094
  **/
 @Service
-public class TestMainService6 {
+public class TestMainService7 {
 
     @Autowired
     private ServiceA serviceA;
@@ -26,15 +26,17 @@ public class TestMainService6 {
 
 
     /**
-     * 模拟在 SUPPORTS 事务的情况下，如果方法发生异常，会怎么样
+     * 模拟在 MANDATORY 事务的情况下，如果方法发生异常，会怎么样
      * <p>
      * <p>
-     * 被调用方法 testHasException 使用 SUPPORS
-     * 如果当前存在事务，就加入到当前事务中，如果当前不存在事务，则以非事务方式运行
+     * 被调用方法 testHasException 使用 MANDATORY
+     * 如果当前存在事务，就加入到当前事务中，如果当前不存在事务，则抛出异常
      * <p>
-     * 执行结论：节点1、节点2都执行成功，节点3未执行
+     * 执行结论：节点1 执行成功，节点2、节点3未执行
      * 调用链条  testMainNoException --> 内部调用 testHasException
-     * 因为前者调用方法没有事务支持，后者有 SUPPORTS 事务支持，最终是每条 sql 都是一个事务
+     * 因为前者调用方法没有事务支持，后者有 MANDATORY 事务，则在执行后者时会导致异常发生
+     *
+     * 注意 这里的方法调用，因为Spring AOP是切在方法层面上，方法内部的调用是不起作用的
      */
     public void testMainNoException() {
         serviceA.testA("无异常A插入");   //插入成功  节点1
@@ -44,7 +46,7 @@ public class TestMainService6 {
     /**
      * 多次调用 serviceB 方法
      */
-    @Transactional(propagation = Propagation.SUPPORTS, rollbackFor = Exception.class)
+    @Transactional(propagation = Propagation.MANDATORY, rollbackFor = Exception.class)
     public void testHasException() {
         serviceB.testB("无异常B插入");   //插入成功  节点2
         int i = 1 / 0;   //模拟出现异常
@@ -55,7 +57,7 @@ public class TestMainService6 {
     public static void main(String[] args) {
         ApplicationContext context = new ClassPathXmlApplicationContext("spring-config.xml");
 
-        TestMainService6 testMainService = (TestMainService6) context.getBean("testMainService6");
+        TestMainService7 testMainService = (TestMainService7) context.getBean("testMainService7");
         testMainService.testMainNoException();
     }
 }
