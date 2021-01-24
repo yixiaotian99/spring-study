@@ -27,7 +27,7 @@ public class TestMainService {
      * 模拟在没有事务的情况下，如果方法发生异常，会怎么样
      * <p>
      * 在没有事务前提下，结论：节点1和节点2都成功了，节点3未执行
-     * 每一个与数据库的交互，都是一个事务，互相之间不影响
+     * 每一个与数据库的交互即第一条执行的 sql 语句，都是一个事务，互相之间不影响
      */
     public void testMainNoException() {
         serviceA.testA("无异常A插入");   //插入成功  节点1
