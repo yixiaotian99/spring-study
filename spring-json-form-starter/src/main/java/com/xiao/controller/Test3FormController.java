@@ -5,11 +5,10 @@ import com.xiao.aop.test3.RequestCustomBody;
 import com.xiao.domain.Company;
 import com.xiao.domain.CompanyTaoBao;
 import com.xiao.domain.UserVO;
+import jdk.nashorn.internal.objects.annotations.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @Author sunjinwei
@@ -21,10 +20,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("test3")
 public class Test3FormController {
 
-    @PostMapping(value = "/addUser")
-    public ResponseEntity<String> addUser(String roleId) {
+    @GetMapping(value = "/addUser")
+    public ResponseEntity<String> addUser(@RequestParam("id") String id) {
 
-        log.info("测试添加用户, roleId:{}", roleId);
+        log.info("测试添加用户, id:{}", id);
         return ResponseEntity.ok("success!");
     }
 

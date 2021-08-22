@@ -1,15 +1,16 @@
 package com.xiao.aop.test3;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
 /**
  * @Author sunjinwei
  * @Date 8/21/21 11:48 PM
  * @Description 启用拦截器
  **/
-@Configuration
+//@Configuration
+@ConditionalOnClass(HttpRequestFilter.class)
 public class WebConfig {
 
     @Bean

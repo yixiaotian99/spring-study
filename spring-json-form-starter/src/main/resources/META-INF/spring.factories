@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.xiao.aop.test3.ResolverConfig,\
+com.xiao.aop.test3.WebConfig

@@ -1,5 +1,6 @@
 package com.xiao.aop.test3;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.annotation.ModelAttributeMethodProcessor;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
@@ -17,7 +18,8 @@ import java.util.List;
  * @Description 合并表单与json解析器
  * @see https://jiacyer.com/2019/01/23/Java-Spring-form-json-compatibility/
  **/
-@Configuration
+//@Configuration
+@ConditionalOnClass(JsonAndFormArgumentResolver.class)
 public class ResolverConfig {
 
     @Resource
