@@ -6,6 +6,7 @@
 
     <groupId>com.xiao</groupId>
     <artifactId>spring-study</artifactId>
+    <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
 
     <name>spring-study</name>
@@ -14,6 +15,7 @@
 
     <modules>
         <module>spring-learn</module>
+        <module>spring-json-form-starter</module>
     </modules>
 
     <properties>
