@@ -16,6 +16,7 @@
     <modules>
         <module>spring-learn</module>
         <module>spring-json-form-starter</module>
+        <module>spring-json-form-test</module>
     </modules>
 
     <properties>
