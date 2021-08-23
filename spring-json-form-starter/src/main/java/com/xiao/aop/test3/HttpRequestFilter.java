@@ -39,7 +39,7 @@ public class HttpRequestFilter implements Filter {
                 //文件下载post类型，不能强制form转json TODO
 
 
-                //提交类型是 form 强制进行 form 转 json 操作
+                //提交类型是 form,强制进行 form 转 json 操作，普通的数据保存等操作
                 filterChain.doFilter(new BodyRequestWrapper(request), servletResponse);
                 return;
 

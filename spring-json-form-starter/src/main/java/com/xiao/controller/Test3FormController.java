@@ -12,6 +12,7 @@ import com.xiao.domain.UserVO;
 import com.xiao.listener.UserVOListener;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -166,6 +167,25 @@ public class Test3FormController {
         // 这里注意 有同学反应使用swagger 会导致各种问题，请直接用浏览器或者用postman
         response.setContentType("application/vnd.ms-excel");
         response.setCharacterEncoding("utf-8");
+        // 这里URLEncoder.encode可以防止中文乱码 当然和easyexcel没有关系
+        String fileName = URLEncoder.encode("测试", "UTF-8").replaceAll("\\+", "%20");
+        response.setHeader("Content-disposition", "attachment;filename*=utf-8''" + fileName + ".xlsx");
+        EasyExcel.write(response.getOutputStream(), UserVO.class).sheet("用户模板").doWrite(data());
+    }
+
+
+    /**
+     * 模拟传参
+     * @param response
+     * @throws IOException
+     */
+    @RequestMapping(value = "/download2", method = RequestMethod.POST, produces = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    public void download2(HttpServletResponse response, UserVO userVO) throws IOException {
+
+        log.info("文件下载入参, userVO:{}", JSONUtil.toJsonStr(userVO));
+
+        // 这里注意 有同学反应使用swagger 会导致各种问题，请直接用浏览器或者用postman
+        response.setContentType("application/octet-stream;charset=utf-8");
         // 这里URLEncoder.encode可以防止中文乱码 当然和easyexcel没有关系
         String fileName = URLEncoder.encode("测试", "UTF-8").replaceAll("\\+", "%20");
         response.setHeader("Content-disposition", "attachment;filename*=utf-8''" + fileName + ".xlsx");
