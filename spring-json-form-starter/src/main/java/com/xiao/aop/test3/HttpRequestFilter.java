@@ -36,6 +36,9 @@ public class HttpRequestFilter implements Filter {
 
             } else if (request.getContentType().contains(MediaType.APPLICATION_FORM_URLENCODED_VALUE)) {
 
+                //文件下载post类型，不能强制form转json TODO
+
+
                 //提交类型是 form 强制进行 form 转 json 操作
                 filterChain.doFilter(new BodyRequestWrapper(request), servletResponse);
                 return;

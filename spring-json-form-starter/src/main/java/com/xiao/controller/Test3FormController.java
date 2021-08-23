@@ -44,9 +44,9 @@ public class Test3FormController {
     }
 
     @GetMapping(value = "/addUser10")
-    public ResponseEntity<String> addUser10(@RequestCustomBody String id) {
+    public ResponseEntity<String> addUser10(@RequestCustomBody String id, @RequestCustomBody String name) {
 
-        log.info("测试添加用户, id:{}", id);
+        log.info("测试添加用户, id:{}, name:{}", id, name);
         return ResponseEntity.ok("success!");
     }
 
