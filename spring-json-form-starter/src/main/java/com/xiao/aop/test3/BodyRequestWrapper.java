@@ -52,14 +52,9 @@ public class BodyRequestWrapper extends HttpServletRequestWrapper {
         log.info("读取request中流原始数据, formBody:{}", formBody);
 
         if (StringUtils.isNotEmpty(formBody)) {
-            //转码
-            String bodyEncodeStr = URLDecoder.decode(formBody, CHARSET_UTF8);
-
-            //替换 body= 前缀
-            bodyEncodeStr = bodyEncodeStr.replaceFirst("body=", "");
 
             //准备写入到request流消息体
-            body = bodyEncodeStr.getBytes(CHARSET_UTF8);
+            body = formBody.getBytes(CHARSET_UTF8);
 
             //打标记为form强制转json
             contentTypeOverride = Boolean.TRUE;
