@@ -1,7 +1,7 @@
 package com.xiao.aop.test3;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.annotation.ModelAttributeMethodProcessor;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
@@ -18,6 +18,7 @@ import java.util.List;
  * @Description 合并表单与json解析器
  * @see https://jiacyer.com/2019/01/23/Java-Spring-form-json-compatibility/
  **/
+@Slf4j
 //@Configuration
 @ConditionalOnClass(JsonAndFormArgumentResolver.class)
 public class ResolverConfig {
@@ -41,9 +42,11 @@ public class ResolverConfig {
                     resolvers.add(resolver);
                 }
             }
+
             // 合并表单提交处理和@RequestBody
             resolvers.add(new JsonAndFormArgumentResolver(modelAttributeMethodProcessor, requestResponseBodyMethodProcessor));
             adapter.setArgumentResolvers(resolvers);
+            log.info("加载自定义解析器 JsonAndFormArgumentResolver");
         }
     }
 }
