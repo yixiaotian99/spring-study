@@ -34,6 +34,11 @@ public class BodyRequestWrapper extends HttpServletRequestWrapper {
     private final byte[] body;
 
     /**
+     * 是否form表单重写
+     */
+    private boolean contentTypeOverride = Boolean.FALSE;
+
+    /**
      * 前端使用 body={"id":1, "name":"张三"} 这种结构传值，需要将 body= 替换之后向后传递
      *
      * @param request
@@ -55,9 +60,14 @@ public class BodyRequestWrapper extends HttpServletRequestWrapper {
 
             //准备写入到request流消息体
             body = bodyEncodeStr.getBytes(CHARSET_UTF8);
+
+            //打标记为form强制转json
+            contentTypeOverride = Boolean.TRUE;
         } else {
             body = new byte[1];
         }
+
+        request.setAttribute("contentTypeOverride", contentTypeOverride);
     }
 
 

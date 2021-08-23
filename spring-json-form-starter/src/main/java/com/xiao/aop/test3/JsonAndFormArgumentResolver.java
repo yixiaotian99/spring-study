@@ -67,14 +67,23 @@ public class JsonAndFormArgumentResolver implements HandlerMethodArgumentResolve
                 return modelAttributeMethodProcessor.resolveArgument(parameter, mavContainer, webRequest, binderFactory);
             }
 
-            //如果是json使用json解析器
-            if (request.getContentType().contains(MediaType.APPLICATION_JSON_VALUE)) {
+            //是否是form转json提交, 如果为true为表单form转json提交
+            Object contentTypeOverride = request.getAttribute("contentTypeOverride");
 
-                //如果是使用自定义解释，是表单与json合并后的解析器，需要将表单转为json提交，如果没有此注解，说明是原始请求，仍使用表单解析器
-                if (!parameter.hasParameterAnnotation(RequestCustomBody.class)) {
+            //如果覆盖contentType属性，则走原来的解析器
+            if (contentTypeOverride != null && Boolean.TRUE.equals(Boolean.valueOf(contentTypeOverride.toString()))) {
+
+                //如果有注解，说明要将form转为json提交
+                if (parameter.hasParameterAnnotation(RequestCustomBody.class)) {
+                    return requestResponseBodyMethodProcessor.resolveArgument(parameter, mavContainer, webRequest, binderFactory);
+                }else {
+                    //如果没有注解，说明要走原来的解析器
                     return modelAttributeMethodProcessor.resolveArgument(parameter, mavContainer, webRequest, binderFactory);
                 }
+            }
 
+            //json解析器来源有两种，一种是真正的json提交，一种是form转为json提交
+            if (request.getContentType().contains(MediaType.APPLICATION_JSON_VALUE)) {
                 log.info("表单强制使用json解析器, contentType:{}", MediaType.APPLICATION_JSON_VALUE);
                 return requestResponseBodyMethodProcessor.resolveArgument(parameter, mavContainer, webRequest, binderFactory);
             }
