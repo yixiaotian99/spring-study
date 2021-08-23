@@ -90,8 +90,8 @@ public class JsonAndFormArgumentResolver implements HandlerMethodArgumentResolve
 
         }
 
-        //默认使用json解析器
-        return requestResponseBodyMethodProcessor.resolveArgument(parameter, mavContainer, webRequest, binderFactory);
+        //默认使用form解析器
+        return modelAttributeMethodProcessor.resolveArgument(parameter, mavContainer, webRequest, binderFactory);
     }
 
 }

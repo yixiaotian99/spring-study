@@ -9,7 +9,6 @@ import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import java.io.*;
-import java.net.URLDecoder;
 import java.util.Enumeration;
 import java.util.NoSuchElementException;
 
@@ -31,7 +30,7 @@ public class BodyRequestWrapper extends HttpServletRequestWrapper {
     /**
      * 流重写后消息体
      */
-    private final byte[] body;
+    private byte[] body = new byte[0];
 
     /**
      * 是否form表单重写
@@ -39,7 +38,7 @@ public class BodyRequestWrapper extends HttpServletRequestWrapper {
     private boolean contentTypeOverride = Boolean.FALSE;
 
     /**
-     * 前端使用 body={"id":1, "name":"张三"} 这种结构传值，需要将 body= 替换之后向后传递
+     * 前端使用 body={"id":1, "name":"张三"} 这种结构传值
      *
      * @param request
      * @throws IOException
@@ -51,6 +50,7 @@ public class BodyRequestWrapper extends HttpServletRequestWrapper {
         String formBody = request.getParameter("body");
         log.info("读取request中流原始数据, formBody:{}", formBody);
 
+        //如果是post请求，将消息写入到inputstream流中
         if (StringUtils.isNotEmpty(formBody)) {
 
             //准备写入到request流消息体
@@ -58,8 +58,6 @@ public class BodyRequestWrapper extends HttpServletRequestWrapper {
 
             //打标记为form强制转json
             contentTypeOverride = Boolean.TRUE;
-        } else {
-            body = new byte[1];
         }
 
         request.setAttribute("contentTypeOverride", contentTypeOverride);
@@ -112,6 +110,7 @@ public class BodyRequestWrapper extends HttpServletRequestWrapper {
 
     /**
      * 重写 getHeaders 为了让 form 表单从流中读取数据
+     *
      * @param name
      * @return
      * @see https://blog.csdn.net/carrie__yang/article/details/73541897

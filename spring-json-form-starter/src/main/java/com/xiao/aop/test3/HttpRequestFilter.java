@@ -26,7 +26,7 @@ public class HttpRequestFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
 
         //判断请求类型
-        if(request.getContentType() != null){
+        if (request.getContentType() != null) {
             if (request.getContentType().contains(MediaType.APPLICATION_JSON_VALUE)) {
 
                 //可重复读取流 ContentCachingRequestWrapper
@@ -36,7 +36,7 @@ public class HttpRequestFilter implements Filter {
 
             } else if (request.getContentType().contains(MediaType.APPLICATION_FORM_URLENCODED_VALUE)) {
 
-                //这里添加判断，只有指定路径，才进行 form 转 json 操作
+                //提交类型是 form 强制进行 form 转 json 操作
                 filterChain.doFilter(new BodyRequestWrapper(request), servletResponse);
                 return;
 
@@ -46,6 +46,12 @@ public class HttpRequestFilter implements Filter {
                 filterChain.doFilter(request, servletResponse);
                 return;
             }
+        }
+
+        //请求是 get 时没有 contentType 类型，如果能够获取到 body 字段,说明特殊处理接口
+        if (request.getParameter("body") != null) {
+            filterChain.doFilter(new ParameterRequestWrapper(request), servletResponse);
+            return;
         }
 
         filterChain.doFilter(request, servletResponse);

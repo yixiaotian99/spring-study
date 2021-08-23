@@ -43,6 +43,13 @@ public class Test3FormController {
         return ResponseEntity.ok("success!");
     }
 
+    @GetMapping(value = "/addUser10")
+    public ResponseEntity<String> addUser10(@RequestCustomBody String id) {
+
+        log.info("测试添加用户, id:{}", id);
+        return ResponseEntity.ok("success!");
+    }
+
 
     /**
      * 使用 www-form-urlencoded 方式提交
