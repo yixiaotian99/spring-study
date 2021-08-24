@@ -48,7 +48,8 @@ public class BodyRequestWrapper extends HttpServletRequestWrapper {
 
         //获取 www-form-urlencoded 之后的值
         String formBody = request.getParameter("body");
-        log.info("读取request中流原始数据, formBody:{}", formBody);
+        String requestURI = request.getRequestURI();
+        log.info("读取request中流原始数据, formBody:{}, requestURI：{}", formBody, requestURI);
 
         //如果是post请求，将消息写入到inputstream流中
         if (StringUtils.isNotEmpty(formBody)) {
