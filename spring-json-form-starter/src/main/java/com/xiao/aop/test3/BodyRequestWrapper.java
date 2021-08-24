@@ -149,7 +149,15 @@ public class BodyRequestWrapper extends HttpServletRequestWrapper {
      */
     @Override
     public String getContentType() {
-        return MediaType.APPLICATION_JSON_VALUE;
+
+        String formBody = super.getRequest().getParameter("body");
+
+        //只有消息体中包含 body 字样，才进行表单重置
+        if (StringUtils.isNotEmpty(formBody)) {
+            return MediaType.APPLICATION_JSON_VALUE;
+        }
+
+        return super.getContentType();
     }
 }
 

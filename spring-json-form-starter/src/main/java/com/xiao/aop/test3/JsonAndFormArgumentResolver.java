@@ -83,7 +83,7 @@ public class JsonAndFormArgumentResolver implements HandlerMethodArgumentResolve
             }
 
             //json解析器来源有两种，一种是真正的json提交，一种是form转为json提交
-            if (request.getContentType().contains(MediaType.APPLICATION_JSON_VALUE)) {
+            if (request.getContentType()!=null && request.getContentType().contains(MediaType.APPLICATION_JSON_VALUE)) {
                 log.info("表单强制使用json解析器, contentType:{}", MediaType.APPLICATION_JSON_VALUE);
                 return requestResponseBodyMethodProcessor.resolveArgument(parameter, mavContainer, webRequest, binderFactory);
             }
